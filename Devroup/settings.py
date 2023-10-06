@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'community',
     'social_django',
+    'markdownx',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -48,6 +49,11 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '903736009045-kqr5r3fpplu1b3i5n5fcn27s0d04mt1g.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
