@@ -5,6 +5,8 @@
 {{ post.title }}
 {{ post.md | safe }}
 
-<img src="{{ post.img_url }}" />
+{% if post.image %}
+<img src="{{ post.image.url }}" />
+{% endif %}
 
 {% endblock content %}

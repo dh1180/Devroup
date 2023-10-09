@@ -9,7 +9,7 @@ class Post(models.Model):
     hit = models.IntegerField(default=0)
     like = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now=True)
-    img_url = models.URLField(null=True)
+    image = models.ImageField(upload_to='community_thumbnail', null=True)
     content = MarkdownxField()
     
     def md(self):

@@ -1,11 +1,29 @@
 {% extends 'community/base.html' %}
 
 {% block content %}
+<br><br><br>
+<div class="container">
+	<div class="row">
+		{% for post in posts %}
+			<div class=" col-3 mb-5">
+				<div class="card border-secondary h-100">
 
-{% for post in posts %}
+					<div class="media-container">
+						<img src="{{ post.image.url }}" class="card-img-top" style="object-fit: cover; height: 150px">
+					</div>
 
-<a href="{% url 'community:post_detail' post.pk %}">{{ post.title }}</a>
+					<div class="card-body">
+						<p class="card-title">{{ post.title }}}</p>
 
-{% endfor %}
+					</div>
+					<div class="card-footer">
+						<a style="text-decoration-line: none;" href="{% url 'community:post_detail' post.pk %}">View</a>
+					</div>
+				</div>
+			</div>
+        {% endfor %}
+	</div>
+</div>
 
 {% endblock content %}
+

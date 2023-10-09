@@ -13,7 +13,7 @@ def post_create(request):
         post = Post()
         post.title = request.POST["title"]
         post.content = request.POST["content"]
-        post.img_url = request.POST["img_url"]
+        post.image = request.FILES["image"]
         post.save()
         return redirect('community:post_detail', pk=post.pk)
     return render(request, 'community/post_create.html')
