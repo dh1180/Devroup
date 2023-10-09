@@ -1,0 +1,10 @@
+{% extends 'community/base.html' %} {% block content %}
+<form method="POST" action="">
+    {% csrf_token %}
+
+    <input type="text" name="title" />
+    <textarea name="content" cols="30" rows="5"></textarea><br />
+
+    <input type="submit" value="글쓰기" />
+</form>
+{{ form.media }} {% endblock content %}

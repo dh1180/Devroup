@@ -1,8 +1,8 @@
 from django import forms
-from .models import MyModel
+from .models import Post
 
 
 class PostForm(forms.ModelForm):
     class Meta:
-        model = MyModel
-        fields = ['myfield']
+        model = Post
+        fields = ['content']
