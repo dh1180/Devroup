@@ -10,16 +10,13 @@ def post_list(request):
 
 def post_create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = Post()
-            post.title = request.POST["title"]
-            post.content = request.POST["content"]
-            post.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'community/post_create.html', {'form': form})
+        post = Post()
+        post.title = request.POST["title"]
+        post.content = request.POST["content"]
+        post.img_url = request.POST["img_url"]
+        post.save()
+        return redirect('community:post_detail', pk=post.pk)
+    return render(request, 'community/post_create.html')
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -31,7 +28,7 @@ def post_edit(request, pk):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('community:post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'community/post_edit.html', {'form': form})
