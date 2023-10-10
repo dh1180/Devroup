@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from .forms_markdownx import PostForm
+from django.conf import settings
+import os
 
 # Create your views here.
 
@@ -13,9 +15,14 @@ def post_create(request):
         post = Post()
         post.title = request.POST["title"]
         post.content = request.POST["content"]
-        post.image = request.FILES["image"]
-        post.save()
-        return redirect('community:post_detail', pk=post.pk)
+        if "image" in request.FILES:
+            post.image = request.FILES["image"]
+        else:
+            default_image_path = os.path.join(settings.MEDIA_ROOT, 'community_thumbnail', 'non_image.png')
+            with open(default_image_path, 'rb') as default_image_file:
+                post.image.save('non_image.png', default_image_file, save=True)
+                post.save()
+                return redirect('community:post_detail', pk=post.pk)
     return render(request, 'community/post_create.html')
 
 def post_detail(request, pk):
