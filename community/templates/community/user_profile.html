@@ -1,0 +1,9 @@
+{% extends 'community/base.html' %} {% block content %}
+<form method="POST" action="">
+    {% csrf_token %}
+
+    <input type="text" name="username" />
+    <input type="submit" value="수정" />
+</form>
+
+{% endblock content %}

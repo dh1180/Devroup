@@ -3,6 +3,7 @@ from .models import Post
 from .forms_markdownx import PostForm
 from django.conf import settings
 import os
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -46,3 +47,14 @@ def post_delete(request, pk):
         post.delete()
         return redirect('post_list')
     return render(request, 'community/post_confirm_delete.html', {'post': post})
+
+def change_username(request):
+    present_user = request.user
+    if present_user.is_authenticated:
+        if request.method == 'POST':
+            present_user.username = request.POST["username"]
+            present_user.save()
+            return render(request, 'community/post_list.html')
+        return render(request, 'community/user_profile.html')
+    else:
+        return render(request, 'community/post_list.html', {'error': '사용자가 로그인하지 않았습니다.'})

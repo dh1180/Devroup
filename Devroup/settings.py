@@ -56,6 +56,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
         'APP': {
             'client_id': SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
             'secret': SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
@@ -77,6 +81,8 @@ MIDDLEWARE = [
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+ACCOUNT_LOGOUT_ON_GET = True
+LOGIN_REDIRECT_URL = 'community:post_list'
 ROOT_URLCONF = 'Devroup.urls'
 
 TEMPLATES = [
