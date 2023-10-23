@@ -1,8 +1,28 @@
-{% extends 'community/base.html' %}
+{% extends 'community/base.html' %} {% block content %}
 
-{% block content %}
+<br /><br /><br /><br />
+<div class="container">
+    <div style="margin-left: 100px; margin-right: 100px;">
+        <div class="row">
+            <div class="col-12 mb-5">
+                <h1>
+                    {{ post.title }}
+                </h1>
+            </div>
+        </div>
 
-{{ post.title }}
-{{ post.md | safe }}
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h4>
+                    {{ post.author }} | {{ post.date | date:'Y.m.d' }}
+                </h4>
+            </div>
+        </div>
+
+        <hr />
+
+        {{ post.md | safe }}
+    </div>
+</div>
 
 {% endblock content %}

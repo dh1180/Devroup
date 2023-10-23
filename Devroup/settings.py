@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.github',
     'community',
     'markdownx',
 ]
@@ -57,6 +58,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 SOCIAL_AUTH_KAKAO_OAUTH2_KEY = 'b97834aa38f0fd9bd7a8f6946a4807c3'
 SOCIAL_AUTH_KAKAO_OAUTH2_SECRET = 'qUvUrNCc5p4WDDikybYrbm9h1oDOD8X6'
+
+SOCIAL_AUTH_GITHUB_OAUTH2_KEY = 'Iv1.e23f36b50e9ca5a8'
+SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = '2d436486bfe198e1e5969b4ec1b23789738702d7'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -80,9 +84,33 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': SOCIAL_AUTH_KAKAO_OAUTH2_SECRET,
             'key': '',
         }
+    },
+
+    'github': {
+        'SCOPE': [
+            'profile_nickname',
+        ],
+        'APP': {
+            'client_id': SOCIAL_AUTH_GITHUB_OAUTH2_KEY,
+            'secret': SOCIAL_AUTH_GITHUB_OAUTH2_SECRET,
+            'key': '',
+        }
     }
 }
 
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra',
+    'markdown.extensions.codehilite',
+    'markdown.extensions.tables',
+    'markdown.extensions.admonition',
+    'markdown.extensions.footnotes',
+    'markdown.extensions.fenced_code',
+    'markdown.extensions.nl2br',
+    'markdown.extensions.sane_lists',
+    'markdown.extensions.meta',
+    'markdown.extensions.toc',
+    'markdown.extensions.wikilinks',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
