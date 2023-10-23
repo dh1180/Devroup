@@ -5,8 +5,4 @@
 {{ post.title }}
 {{ post.md | safe }}
 
-{% if post.image %}
-<img src="{{ post.image.url }}" />
-{% endif %}
-
 {% endblock content %}

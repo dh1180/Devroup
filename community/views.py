@@ -16,6 +16,7 @@ def post_create(request):
         post = Post()
         post.title = request.POST["title"]
         post.content = request.POST["content"]
+        post.author = request.user.username
         if "image" in request.FILES:
             post.image = request.FILES["image"]
         else:

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
     'community',
     'markdownx',
 ]
@@ -54,6 +55,9 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '903736009045-kqr5r3fpplu1b3i5n5fcn27s0d04mt1g.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
+SOCIAL_AUTH_KAKAO_OAUTH2_KEY = 'b97834aa38f0fd9bd7a8f6946a4807c3'
+SOCIAL_AUTH_KAKAO_OAUTH2_SECRET = 'qUvUrNCc5p4WDDikybYrbm9h1oDOD8X6'
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -65,8 +69,20 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
             'key': '',
         }
+    },
+
+    'kakao': {
+        'SCOPE': [
+            'profile_nickname',
+        ],
+        'APP': {
+            'client_id': SOCIAL_AUTH_KAKAO_OAUTH2_KEY,
+            'secret': SOCIAL_AUTH_KAKAO_OAUTH2_SECRET,
+            'key': '',
+        }
     }
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
