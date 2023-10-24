@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 def post_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date')
     return render(request, 'community/post_list.html', {'posts': posts})
 
 def post_create(request):
