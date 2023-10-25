@@ -8,7 +8,7 @@ class Post(models.Model):
     author = models.CharField(max_length=30, null=True)
     hit = models.IntegerField(default=0)
     like = models.IntegerField(default=0)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='community_thumbnail', null=True)
     content = MarkdownxField()
     

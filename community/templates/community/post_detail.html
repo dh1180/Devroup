@@ -1,8 +1,18 @@
 {% extends 'community/base.html' %} {% block content %}
 
+{% if messages %}
+{% for message in messages %}
+
+<script>
+alert("{{ message }}");
+</script>
+
+{% endfor %}
+{% endif %}
+
 <br /><br /><br /><br />
 <div class="container">
-    <div style="margin-left: 100px; margin-right: 100px;">
+    <div class="mb-5" style="margin-left: 100px; margin-right: 100px;">
         <div class="row">
             <div class="col-12 mb-5">
                 <h1>
@@ -23,6 +33,15 @@
 
         {{ post.md | safe }}
     </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-danger" style="font-size: 300%;">
+                ♥ {{ post.like }}
+            </button>
+        </div>
+    </form>
 </div>
 
 {% endblock content %}

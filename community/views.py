@@ -3,7 +3,7 @@ from .models import Post
 from .forms_markdownx import PostForm
 from django.conf import settings
 import os
-from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 
@@ -29,6 +29,14 @@ def post_create(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    post.hit += 1
+    post.save()
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            post.like += 1
+            post.save()
+        else:
+            messages.warning(request, "로그인 후 다시 시도해 주세요.")
     return render(request, 'community/post_detail.html', {'post': post})
 
 def post_edit(request, pk):
