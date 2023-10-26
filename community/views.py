@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Comment
 from .forms_markdownx import PostForm
 from django.conf import settings
 import os
@@ -31,13 +31,14 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.hit += 1
     post.save()
+    comments = Comment.objects.filter(post__pk=pk).order_by('-date')
     if request.method == 'POST':
         if request.user.is_authenticated:
             post.like += 1
             post.save()
         else:
             messages.warning(request, "로그인 후 다시 시도해 주세요.")
-    return render(request, 'community/post_detail.html', {'post': post})
+    return render(request, 'community/post_detail.html', {'post': post, 'comments': comments})
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
