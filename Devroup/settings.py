@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.github',
     'community',
+    'user',
     'markdownx',
 ]
 
@@ -59,8 +60,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_KAKAO_OAUTH2_KEY = 'b97834aa38f0fd9bd7a8f6946a4807c3'
 SOCIAL_AUTH_KAKAO_OAUTH2_SECRET = 'qUvUrNCc5p4WDDikybYrbm9h1oDOD8X6'
 
-SOCIAL_AUTH_GITHUB_OAUTH2_KEY = 'Iv1.e23f36b50e9ca5a8'
-SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = '2d436486bfe198e1e5969b4ec1b23789738702d7'
+SOCIAL_AUTH_GITHUB_OAUTH2_KEY = 'b319fd8a60f1cbbc4dd4'
+SOCIAL_AUTH_GITHUB_OAUTH2_SECRET = '2ceb006b0f29ad06faf9eb486ae9d4ee6b6a2734'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -88,7 +89,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
     'github': {
         'SCOPE': [
-            'profile_nickname',
+            'user',
         ],
         'APP': {
             'client_id': SOCIAL_AUTH_GITHUB_OAUTH2_KEY,
