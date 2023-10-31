@@ -1,0 +1,45 @@
+{% extends 'community/base.html' %} {% block content %}
+<br /><br /><br /><br /><br />
+<div class="container">
+    <div class="row mb-5">
+        <h3 style="font-weight: 1000;">📝내가 쓴 글</h3>
+    </div>
+    <div class="row">
+        
+        {% for post in posts %}
+     
+        <div class="col-4 mb-5">
+            <div class="card h-100">
+                <div class="media-container">
+                    <img
+                        src="{{ post.image.url }}"
+                        class="card-img-top"
+                        style="object-fit: cover; height: 150px;"
+                    />
+                </div>
+
+                <div class="card-body">
+                    <a
+                        class="card-title stretched-link"
+                        href="{% url 'community:post_detail' pk=post.pk %}"
+                        >{{ post.title }}</a
+                    >
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-6" style="font-size: small">
+                            {{ post.author }}
+                        </div>
+                        <div class="col-6 text-end">
+                            ♥&nbsp;{{ post.like }}
+                            👁&nbsp;{{ post.hit }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}
