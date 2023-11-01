@@ -1,9 +1,18 @@
 {% extends 'community/base.html' %} {% block content %}
-<form method="POST" action="{% url 'user:change_username' %}">
-    {% csrf_token %}
-
-    <input type="text" name="username" />
-    <input type="submit" value="수정" />
-</form>
+<br /><br /><br /><br /><br />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <form method="POST" action="{% url 'user:change_username' %}">
+                {% csrf_token %}
+                <div class="form-group" style="font-weight: 1000">
+                    <label for="username" class="form-label">닉네임<span style="color: #FF0000">*</span></label>
+                    <input type="text" name="username" class="form-control" id="username" />
+                    <input type="submit" value="수정" class="form-control" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
