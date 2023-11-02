@@ -74,6 +74,22 @@
             </div>
         </div>
     </div>
+
+    <div class="row justify-content-end mb-5">
+        <div class="col-3">
+            <form method="GET" action="{% url 'community:post_list' %}" class="d-flex">
+                <input
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    name="q"
+                />
+                <input class="btn btn-outline-success" type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+    
     <div class="row">
         {% for post in posts %}
         <div class="col-4 mb-5">
@@ -96,12 +112,11 @@
                     <br />
 
                     <div class="row">
-                        <div class="col-6" style="font-size: small">
+                        <div class="col-6" style="font-size: small;">
                             {{ post.author }}
                         </div>
                         <div class="col-6 text-end">
-                            ♥&nbsp;{{ post.like }}
-                            👁&nbsp;{{ post.hit }}
+                            ♥&nbsp;{{ post.like }} 👁&nbsp;{{ post.hit }}
                         </div>
                     </div>
                 </div>

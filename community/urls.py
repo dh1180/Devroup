@@ -13,5 +13,4 @@ urlpatterns = [
 
     path('post/<int:pk>/comments/', views_comment.comment_create, name='comment_create'),
     path('post/<int:post_pk>/comments/<int:comment_pk>/delete/', views_comment.comment_delete, name='comment_delete'),
-
 ]

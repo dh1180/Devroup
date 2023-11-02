@@ -8,7 +8,11 @@ from django.contrib import messages
 # Create your views here.
 
 def post_list(request):
-    posts = Post.objects.all().order_by('-date')
+    query = request.GET.get("q")
+    if query:
+        posts = Post.objects.filter(title__icontains=query).order_by('-date')
+    else:
+        posts = Post.objects.all().order_by('-date')
     return render(request, 'community/post_list.html', {'posts': posts})
 
 def post_create(request):
