@@ -142,6 +142,11 @@
         sessionStorage.setItem('query', q);
     });
     
+    $('#brand').click(function () {
+        var q = ''
+        sessionStorage.setItem('query', q);
+    });
+    
     $('#latest').click(function () {
         $.ajax({
             type: 'GET',
