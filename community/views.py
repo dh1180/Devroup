@@ -4,15 +4,28 @@ from .forms_markdownx import PostForm
 from django.conf import settings
 import os
 from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
+from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
+@csrf_exempt
 def post_list(request):
-    query = request.GET.get("q")
+    query = request.GET.get('q', '')
+    ordering = request.GET.get('ordering', '-date')
+    
+    if request.is_ajax():
+        posts = Post.objects.filter(title__icontains=query).order_by(ordering)
+        template = loader.get_template('community/post_list.html')  # 게시물을 렌더링할 HTML 템플릿
+        context = {'posts': posts}
+        html = template.render(context)
+        return HttpResponse(html)
+
     if query:
-        posts = Post.objects.filter(title__icontains=query).order_by('-date')
+        posts = Post.objects.filter(title__icontains=query).order_by(ordering)
     else:
-        posts = Post.objects.all().order_by('-date')
+        posts = Post.objects.all().order_by(ordering)
     return render(request, 'community/post_list.html', {'posts': posts})
 
 def post_create(request):

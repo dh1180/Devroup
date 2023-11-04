@@ -75,8 +75,15 @@
         </div>
     </div>
 
-    <div class="row justify-content-end mb-5">
+    <div class="row justify-content-between mb-5">
         <div class="col-3">
+            <h5>
+            <a id="latest" style="cursor: pointer;">최신순 |</a>
+            <a id="likes" style="cursor: pointer;">좋아요순 |</a>
+            <a id="views" style="cursor: pointer;">조회수순</a>
+        </h5>
+                </div>
+        <div class="col-4">
             <form method="GET" action="{% url 'community:post_list' %}" class="d-flex">
                 <input
                     class="form-control me-2"
@@ -84,12 +91,13 @@
                     placeholder="Search"
                     aria-label="Search"
                     name="q"
+                    id="q"
                 />
-                <input class="btn btn-outline-success" type="submit" value="Search" />
+                <input class="btn btn-outline-success" type="submit" value="Search" id="submit" />
             </form>
         </div>
     </div>
-    
+
     <div class="row">
         {% for post in posts %}
         <div class="col-4 mb-5">
@@ -125,5 +133,47 @@
         {% endfor %}
     </div>
 </div>
+
+<script type="text/javascript">
+    
+    $('#submit').click(function () {
+        var q = document.getElementById("q").value;
+
+        sessionStorage.setItem('query', q);
+    });
+    
+    $('#latest').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'community:post_list' %}", // 정렬 뷰의 URL을 여기에 입력
+            data: { q: sessionStorage.getItem('query'), ordering: '-date' }, // 최신순 정렬
+            success: function (data) {
+                $('#ajax').html(data);
+            },
+        });
+    });
+
+    $('#likes').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'community:post_list' %}",
+            data: { q: sessionStorage.getItem('query'), ordering: '-like' }, // 좋아요순 정렬
+            success: function (data) {
+                $('#ajax').html(data);
+            },
+        });
+    });
+
+    $('#views').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'community:post_list' %}",
+            data: { q: sessionStorage.getItem('query'), ordering: '-hit' }, // 조회수순 정렬
+            success: function (data) {
+                $('#ajax').html(data);
+            },
+        });
+    });
+</script>
 
 {% endblock content %}
