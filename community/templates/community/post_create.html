@@ -3,10 +3,9 @@
     {% csrf_token %}
 
     <input type="text" name="title" />
-    <textarea name="content" cols="30" rows="5"></textarea><br />
+    <textarea type="content" name="content"></textarea>
     <input type="file" name="image" />
-
-    <input type="submit" value="글쓰기" />
+    <input type="submit" value="글쓰기" id="gfm" />
 </form>
 
 {% endblock content %}

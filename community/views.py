@@ -6,11 +6,8 @@ import os
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.template import loader
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-
-@csrf_exempt
 def post_list(request):
     query = request.GET.get('q', '')
     ordering = request.GET.get('ordering', '-date')
@@ -26,6 +23,7 @@ def post_list(request):
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
     else:
         posts = Post.objects.all().order_by(ordering)
+        
     return render(request, 'community/post_list.html', {'posts': posts})
 
 def post_create(request):

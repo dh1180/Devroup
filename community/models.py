@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdown
+import requests
 
 
 class Post(models.Model):
@@ -11,11 +12,11 @@ class Post(models.Model):
     like = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='community_thumbnail', null=True)
-    content = MarkdownxField()
-
-    def md(self):
-        return markdown(self.content)
-
+    content = models.TextField()
+    
+    def get_comment_count(self):
+        return Comment.objects.filter(post=self).count()
+    
     def __str__(self):
         return self.title
 

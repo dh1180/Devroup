@@ -28,7 +28,7 @@
 
         <hr />
 
-        {{ post.md | safe }}
+        {{ post.content | safe}}
 
         <form action="" method="POST" class="mb-5">
             {% csrf_token %}
