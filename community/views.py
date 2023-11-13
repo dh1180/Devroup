@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comment
+from .models import Post, Comment, md_to_gfm
 from .forms_markdownx import PostForm
 from django.conf import settings
 import os
 from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.template import loader
 
 # Create your views here.
@@ -30,7 +30,8 @@ def post_create(request):
     if request.method == 'POST':
         post = Post()
         post.title = request.POST["title"]
-        post.content = request.POST["content"]
+        content = request.POST["content"]
+        post.content = md_to_gfm(content)
         post.author = request.user.username
         if "image" in request.FILES:
             post.image = request.FILES["image"]

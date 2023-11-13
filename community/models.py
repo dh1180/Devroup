@@ -5,6 +5,14 @@ from markdownx.utils import markdown
 import requests
 
 
+def md_to_gfm(text):
+    headers = {'Content-Type': 'text/plain'}
+    data = text.encode('utf-8')
+    r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
+
+    return r.text
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=30, null=True)
