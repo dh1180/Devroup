@@ -1,11 +1,36 @@
 {% extends 'community/base.html' %} {% block content %}
-<form method="POST" action="" enctype="multipart/form-data">
-    {% csrf_token %}
+<div class="container">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                <label for="title" class="form-label">제목</label>
+                <input class="form-control" type="text" name="title" id="title" />
 
-    <input type="text" name="title" />
-    <textarea type="content" name="content"></textarea>
-    <input type="file" name="image" />
-    <input type="submit" value="글쓰기" id="gfm" />
-</form>
+                <label for="content" class="form-label">내용</label>
+                <textarea
+                    class="form-control"
+                    type="content"
+                    name="content"
+                    id="content"
+                    rows="10"
+                ></textarea>
+            </div>
+        </div>
+        
+        <br />
+        
+        <div class="row justify-content-end">
+            <div class="col-2 text-end">
+                <label for="file" class="btn btn-secondary">썸네일 업로드</label>
+                <input type="file" name="image" class="custom-file-input" id="file" style="display: none" />
+            </div>
+
+            <div class="col-1 text-end">
+                <input type="submit" value="글쓰기" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </form>
+</div>
 
 {% endblock content %}
