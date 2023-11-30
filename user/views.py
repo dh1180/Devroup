@@ -13,7 +13,7 @@ def user_profile(request):
 
 
 def user_posts(request):
-    posts = Post.objects.filter(author=request.user.username).order_by('-date')
+    posts = Post.objects.filter(author=request.user).order_by('-date')
     return render(request, 'user/user_posts.html', {'posts': posts})
 
 

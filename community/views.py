@@ -32,9 +32,11 @@ def post_create(request):
         post.title = request.POST["title"]
         content = request.POST["content"]
         post.content = md_to_gfm(content)
-        post.author = request.user.username
+        post.author = request.user
         if "image" in request.FILES:
             post.image = request.FILES["image"]
+            post.save()
+            return redirect('community:post_detail', pk=post.pk)
         else:
             default_image_path = os.path.join(settings.MEDIA_ROOT, 'community_thumbnail', 'non_image.png')
             with open(default_image_path, 'rb') as default_image_file:
@@ -50,7 +52,12 @@ def post_detail(request, pk):
     comments = Comment.objects.filter(post__pk=pk).order_by('-date')
     if request.method == 'POST':
         if request.user.is_authenticated:
-            post.like += 1
+            if post.like_users.filter(pk=request.user.pk).exists():
+                post.like_users.remove(request.user)
+                post.like -= 1
+            else:
+                post.like_users.add(request.user)
+                post.like += 1
             post.save()
         else:
             messages.warning(request, "로그인 후 다시 시도해 주세요.")
@@ -59,20 +66,28 @@ def post_detail(request, pk):
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save()
+        post.title = request.POST["title"]
+        content = request.POST["content"]
+        post.content = md_to_gfm(content)
+        post.author = request.user
+        if "image" in request.FILES:
+            post.image = request.FILES["image"]
+            post.save()
             return redirect('community:post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'community/post_edit.html', {'form': form})
+        else:
+            default_image_path = os.path.join(settings.MEDIA_ROOT, 'community_thumbnail', 'non_image.png')
+            with open(default_image_path, 'rb') as default_image_file:
+                post.image.save('non_image.png', default_image_file, save=True)
+                post.save()
+                return redirect('community:post_detail', pk=post.pk)
+    return render(request, 'community/post_edit.html', {'post': post})
 
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         post.delete()
-        return redirect('post_list')
-    return render(request, 'community/post_confirm_delete.html', {'post': post})
+        return redirect('community:post_list')
+    return render(request, 'community/post_detail.html', {'post': post})
 
 def change_username(request):
     present_user = request.user

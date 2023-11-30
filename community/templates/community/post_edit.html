@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <label for="title" class="form-label">제목</label>
-                <input class="form-control" type="text" name="title" id="title" placeholder="제목을 입력해주세요" />
+                <input class="form-control" type="text" name="title" id="title" value="{{ post.title }}" />
 
                 <label for="content" class="form-label">내용</label>
                 <textarea
@@ -13,9 +13,8 @@
                     type="content"
                     name="content"
                     id="content"
-                    rows="20"
-                    placeholder="마크다운 형식으로 입력해주세요"
-                ></textarea>
+                    rows="10"
+                >{{ post.content }}</textarea>
             </div>
         </div>
         

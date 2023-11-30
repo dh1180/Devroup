@@ -15,9 +15,10 @@ def md_to_gfm(text):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=30, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     hit = models.IntegerField(default=0)
     like = models.IntegerField(default=0)
+    like_users = models.ManyToManyField(User, related_name='like_posts')
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='community_thumbnail', null=True)
     content = models.TextField()
@@ -31,7 +32,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.CharField(max_length=30, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
 

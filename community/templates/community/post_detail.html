@@ -7,29 +7,52 @@
 
 {% endfor %} {% endif %}
 
+<style>
+    h1:not(.disabled), h2:not(.disabled), h3:not(.disabled), h4:not(.disabled), h5:not(.disabled), h6:not(.disabled) {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #D3D3D3;
+    font-weight: bold;
+    margin-bottom: 20px;
+    }
+</style>
+
 <br /><br /><br /><br />
 <div class="container">
     <div class="ms-5 me-5">
         <div class="row">
             <div class="col-12 mb-5">
-                <h1>
+                <h1 class="disabled">
                     {{ post.title }}
                 </h1>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-12 mb-3">
-                <h4>
-                    {{ post.author }} | {{ post.date | date:'Y.m.d' }}
-                </h4>
+                
+            <div class="col-3">
+                <h4 class="disabled mb-3">
+            {{ post.author }} | {{ post.date | date:'Y.m.d' }}
+                    </h4>
             </div>
+            {% if user == post.author %}
+            <div class="col-3 d-flex">
+                <form action="{% url 'community:post_edit' pk=post.pk %}">
+                    <input type="submit" class="btn btn-outline-success" value="수정" />
+                    <input type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete" value="삭제" />
+                </form>
+                    
+            </div>
+            {% endif %}
+                
         </div>
 
         <hr />
-
+            
+        
         {{ post.content | safe}}
-
+        
+        
         <form action="" method="POST" class="mb-5">
             {% csrf_token %}
             <div class="text-center">
@@ -65,7 +88,7 @@
                 {% for comment in comments %} 
             <div class="col-12">
                 {{ comment.author }} | {{ comment.date | date:'Y.m.d'}} 
-                {% if user.username == comment.author %}
+                {% if user == comment.author %}
             
                 <form
                     action="{% url 'community:comment_delete' post.pk comment.pk %}"
@@ -84,6 +107,28 @@
         </div>
         <br /><br />
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title" id="exampleModalLabel">게시글 삭제</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          게시글을 삭제하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <form action="{% url 'community:post_delete' pk=post.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="삭제" />
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock content %}

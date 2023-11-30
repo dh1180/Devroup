@@ -12,7 +12,7 @@ def comment_create(request, pk):
         post = get_object_or_404(Post, pk=pk)
         comment = Comment()
         comment.post = post
-        comment.author = request.user.username
+        comment.author = request.user
         comment.content = request.POST["content"]
         comment.save()
         return redirect('community:post_detail', pk=post.pk)
@@ -22,6 +22,6 @@ def comment_create(request, pk):
 def comment_delete(request, post_pk, comment_pk):
     if request.user.is_authenticated:
         comment = get_object_or_404(Comment, pk=comment_pk)
-        if request.user.username == comment.author:
+        if request.user == comment.author:
             comment.delete()
     return redirect('community:post_detail', pk=post_pk)
