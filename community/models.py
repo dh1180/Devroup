@@ -22,6 +22,7 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='community_thumbnail', null=True)
     content = models.TextField()
+    github_address = models.URLField(null=True)
     
     def get_comment_count(self):
         return Comment.objects.filter(post=self).count()

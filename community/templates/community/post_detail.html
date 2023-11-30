@@ -43,15 +43,21 @@
                 </form>
                     
             </div>
+            
+            {% if post.github_address %}
+            
+            <div class="col-12">
+                <a href="{{ post.github_address }}" class="disabled">{{ post.github_address }}</a>
+            </div>
+            
+            {% endif %}
+            
             {% endif %}
                 
         </div>
 
         <hr />
-            
-        
         {{ post.content | safe}}
-        
         
         <form action="" method="POST" class="mb-5">
             {% csrf_token %}

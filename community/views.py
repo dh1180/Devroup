@@ -6,16 +6,22 @@ import os
 from django.contrib import messages
 from django.http import HttpResponse
 from django.template import loader
+from django.core.paginator import Paginator
 
 # Create your views here.
 def post_list(request):
     query = request.GET.get('q', '')
     ordering = request.GET.get('ordering', '-date')
-    
+
     if request.is_ajax():
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
-        template = loader.get_template('community/post_list.html')  # 게시물을 렌더링할 HTML 템플릿
-        context = {'posts': posts}
+        template = loader.get_template('community/post_list.html')
+
+        paginator = Paginator(posts, 1)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context = {'page_obj': page_obj}
         html = template.render(context)
         return HttpResponse(html)
 
@@ -23,8 +29,11 @@ def post_list(request):
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
     else:
         posts = Post.objects.all().order_by(ordering)
-        
-    return render(request, 'community/post_list.html', {'posts': posts})
+
+    paginator = Paginator(posts, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'community/post_list.html', {'page_obj': page_obj})
 
 def post_create(request):
     if request.method == 'POST':
@@ -33,6 +42,7 @@ def post_create(request):
         content = request.POST["content"]
         post.content = md_to_gfm(content)
         post.author = request.user
+        post.github_address = request.POST["github_address"]
         if "image" in request.FILES:
             post.image = request.FILES["image"]
             post.save()
@@ -70,6 +80,7 @@ def post_edit(request, pk):
         content = request.POST["content"]
         post.content = md_to_gfm(content)
         post.author = request.user
+        post.github_address = request.POST["github_address"]
         if "image" in request.FILES:
             post.image = request.FILES["image"]
             post.save()

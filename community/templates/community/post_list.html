@@ -78,8 +78,8 @@
     <div class="row justify-content-between mb-5">
         <div class="col-3">
             <h5>
-            <a id="latest">최신순 |</a>
-            <a id="likes">좋아요순 |</a>
+            <a id="latest">최신순</a>&nbsp;|
+            <a id="likes">좋아요순</a>&nbsp;|
             <a id="views">조회수순</a>
         </h5>
         </div>
@@ -99,7 +99,7 @@
     </div>
 
     <div class="row">
-        {% for post in posts %}
+        {% for post in page_obj %}
         <div class="col-4 mb-5">
             <div class="card h-100">
                 <div class="media-container">
@@ -131,7 +131,33 @@
             </div>
         </div>
         {% endfor %}
+        
     </div>
+    
+  <ul class="pagination">
+      
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+      
+    <li class="page-item"><a class="page-link" href="">1</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+      
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>  
+    {% endif %}
+      
+  </ul>
+    
 </div>
 
 <script type="text/javascript">
@@ -148,6 +174,10 @@
     });
     
     $('#latest').click(function () {
+        var ordering = "-date";
+        
+        sessionStorage.setItem('o', ordering);
+        
         $.ajax({
             type: 'GET',
             url: "{% url 'community:post_list' %}", // 정렬 뷰의 URL을 여기에 입력
@@ -174,6 +204,17 @@
             type: 'GET',
             url: "{% url 'community:post_list' %}",
             data: { q: sessionStorage.getItem('query'), ordering: '-hit' }, // 조회수순 정렬
+            success: function (data) {
+                $('#ajax').html(data);
+            },
+        });
+    });
+    
+    $('#page-link').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'community:post_list' %}", // 정렬 뷰의 URL을 여기에 입력
+            data: { q: sessionStorage.getItem('query'), ordering: '-date' }, // 최신순 정렬
             success: function (data) {
                 $('#ajax').html(data);
             },
