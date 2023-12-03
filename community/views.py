@@ -17,8 +17,8 @@ def post_list(request):
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
         template = loader.get_template('community/post_list.html')
 
-        paginator = Paginator(posts, 1)
         page_number = request.GET.get('page')
+        paginator = Paginator(posts, 1)
         page_obj = paginator.get_page(page_number)
 
         context = {'page_obj': page_obj}
@@ -30,8 +30,8 @@ def post_list(request):
     else:
         posts = Post.objects.all().order_by(ordering)
 
-    paginator = Paginator(posts, 1)
     page_number = request.GET.get('page')
+    paginator = Paginator(posts, 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'community/post_list.html', {'page_obj': page_obj})
 
