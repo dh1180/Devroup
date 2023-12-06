@@ -1,7 +1,4 @@
-{% extends 'community/base.html' %} {% block content %}
 
-<br /><br /><br />
-<div id="post_list">
 <div class="container">
     <div class="row">
         <div class="col-12 mb-5">
@@ -78,7 +75,7 @@
 
     <div class="row justify-content-between mb-5">
         <div class="col-3">
-            <h5 style="font-weight: bold;">
+        <h5 style="font-weight: bold;">
             <a id="latest" style="color: gray;">최신순</a>&nbsp;|
             <a id="likes" style="color: gray;">좋아요순</a>&nbsp;|
             <a id="views" style="color: gray;">조회수순</a>
@@ -186,9 +183,34 @@
   </ul>
     
 </div>
-</div>
 
 <script type="text/javascript">
+    
+    var latest = document.getElementById('latest');
+    var likes = document.getElementById('likes');
+    var views = document.getElementById('views');
+    
+    
+    if (sessionStorage.getItem('query') == "-date") {
+        latest.style.color = 'black';
+        likes.style.color = 'gray';
+        views.style.color = 'gray';
+    }
+    
+    else if (sessionStorage.getItem('query') == "-like") {
+        latest.style.color = 'gray';
+        likes.style.color = 'black';
+        views.style.color = 'gray';
+    }
+    
+    else if (sessionStorage.getItem('query') == "-hit") {
+        latest.style.color = 'gray';
+        likes.style.color = 'gray';
+        views.style.color = 'black';
+    }
+    
+    console.log(sessionStorage.getItem('query'))
+    
     window.onload = function() {
         $.ajax({
             type: 'GET',
@@ -213,9 +235,6 @@
     
     $('#latest').click(function () {
         var ordering = "-date";
-        
-        const element = document.getElementById('latest');
-        element.style.color = 'black';
         
         sessionStorage.setItem('o', ordering);
         
@@ -279,5 +298,3 @@
     });
 
 </script>
-
-{% endblock content %}

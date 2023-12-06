@@ -8,9 +8,18 @@
                 <div class="form-group" style="font-weight: 1000">
                     <label for="username" class="form-label">닉네임<span style="color: #FF0000">*</span></label>
                     <input type="text" name="username" class="form-control" id="username" />
-                    <input type="submit" value="수정" class="form-control" />
+                    <br />
+                    <br />
+                    
+                    <input type="submit" value="수정" class="btn btn-outline-success form-control" />
                 </div>
             </form>
+            
+            <form method="POST" action="{% url 'user:user_delete' %}">
+                {% csrf_token %}
+                    <input type="submit" value="회원 탈퇴" class="btn btn-outline-danger form-control" />
+            </form>
+            
         </div>
     </div>
 </div>

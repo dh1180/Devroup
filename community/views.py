@@ -12,12 +12,12 @@ from django.core.paginator import Paginator
 def post_list(request):
     query = request.GET.get('q', '')
     ordering = request.GET.get('ordering', '-date')
+    page_number = request.GET.get('page')
 
     if request.is_ajax():
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
-        template = loader.get_template('community/post_list.html')
-
-        page_number = request.GET.get('page')
+        template = loader.get_template('community/post_list_ajax.html')
+        
         paginator = Paginator(posts, 1)
         page_obj = paginator.get_page(page_number)
 
@@ -30,7 +30,6 @@ def post_list(request):
     else:
         posts = Post.objects.all().order_by(ordering)
 
-    page_number = request.GET.get('page')
     paginator = Paginator(posts, 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'community/post_list.html', {'page_obj': page_obj})
@@ -100,13 +99,3 @@ def post_delete(request, pk):
         return redirect('community:post_list')
     return render(request, 'community/post_detail.html', {'post': post})
 
-def change_username(request):
-    present_user = request.user
-    if present_user.is_authenticated:
-        if request.method == 'POST':
-            present_user.username = request.POST["username"]
-            present_user.save()
-            return render(request, 'community/post_list.html')
-        return render(request, 'community/user_profile.html')
-    else:
-        return render(request, 'community/post_list.html', {'error': '사용자가 로그인하지 않았습니다.'})

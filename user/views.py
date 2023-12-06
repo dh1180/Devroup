@@ -4,7 +4,7 @@ import os
 from django.contrib import messages
 import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from community.models import Post
+from community.models import Post, Comment
 
 # Create your views here.
 
@@ -27,3 +27,20 @@ def change_username(request):
         return render(request, 'user/user_profile.html')
     else:
         return render(request, 'user/user_profile', {'error': '사용자가 로그인하지 않았습니다.'})
+    
+
+def user_comment_posts(request):
+    comment_posts = Comment.objects.filter(author=request.user).order_by('-date')
+    return render(request, 'user/user_comment_posts.html', {'comment_posts': comment_posts})
+
+
+def user_like_posts(request):
+    posts = Post.objects.filter(like_users=request.user).order_by('-date')
+    return render(request, 'user/user_like_posts.html', {'posts': posts})
+    
+    
+def user_delete(request):
+    if request.method == 'POST':
+        request.user.delete()
+        return redirect('community:post_list')
+    return render(request, 'user/user_profile')
