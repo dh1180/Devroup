@@ -5,14 +5,6 @@ from markdownx.utils import markdown
 import requests
 
 
-def md_to_gfm(text):
-    headers = {'Content-Type': 'text/plain'}
-    data = text.encode('utf-8')
-    r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
-
-    return r.text
-
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -26,6 +18,13 @@ class Post(models.Model):
     
     def get_comment_count(self):
         return Comment.objects.filter(post=self).count()
+    
+    def md_to_gfm(self):
+        headers = {'Content-Type': 'text/plain'}
+        data = self.content.encode('utf-8')
+        r = requests.post('https://api.github.com/markdown/raw', headers=headers, data=data)
+
+        return r.text
     
     def __str__(self):
         return self.title

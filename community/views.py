@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comment, md_to_gfm
+from .models import Post, Comment
 from .forms_markdownx import PostForm
 from django.conf import settings
 import os
@@ -18,7 +18,7 @@ def post_list(request):
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
         template = loader.get_template('community/post_list_ajax.html')
         
-        paginator = Paginator(posts, 1)
+        paginator = Paginator(posts, 15)
         page_obj = paginator.get_page(page_number)
 
         context = {'page_obj': page_obj}
@@ -30,7 +30,7 @@ def post_list(request):
     else:
         posts = Post.objects.all().order_by(ordering)
 
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 15)
     page_obj = paginator.get_page(page_number)
     return render(request, 'community/post_list.html', {'page_obj': page_obj})
 
@@ -38,8 +38,7 @@ def post_create(request):
     if request.method == 'POST':
         post = Post()
         post.title = request.POST["title"]
-        content = request.POST["content"]
-        post.content = md_to_gfm(content)
+        post.content = request.POST["content"]
         post.author = request.user
         post.github_address = request.POST["github_address"]
         if "image" in request.FILES:
@@ -76,8 +75,7 @@ def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         post.title = request.POST["title"]
-        content = request.POST["content"]
-        post.content = md_to_gfm(content)
+        post.content = request.POST["content"]
         post.author = request.user
         post.github_address = request.POST["github_address"]
         if "image" in request.FILES:

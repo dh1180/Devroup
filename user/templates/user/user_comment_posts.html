@@ -22,11 +22,12 @@
                     <a
                         class="card-title stretched-link"
                         href="{% url 'community:post_detail' pk=comment_post.post.pk %}"
+                       style="font-weight: bold;"
                         >{{ comment_post.post.title }}</a
                     >
 
                     <br />
-
+                    <hr />
                     <div class="row">
                         <div class="col-6" style="font-size: small">
                             {{ comment_post.post.author }}
