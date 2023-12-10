@@ -90,20 +90,20 @@
                     name="q"
                     id="q"
                 />
-                <input class="btn btn-outline-success" type="submit" value="Search" id="submit" />
+                <input class="btn btn-outline-primary" type="submit" value="Search" id="submit" />
             </form>
         </div>
     </div>
 
     <div class="row">
         {% for post in page_obj %}
-        <div class="col-4 mb-5">
+        <div class="col-3 mb-5">
             <div class="card h-100">
                 <div class="media-container">
                     <img
                         src="{{ post.image.url }}"
                         class="card-img-top"
-                        style="object-fit: cover; height: 150px;"
+                        style="object-fit: cover; height: 200px;"
                     />
                 </div>
 
@@ -111,8 +111,8 @@
                     <a
                         class="card-title stretched-link"
                         href="{% url 'community:post_detail' pk=post.pk %}"
-                       style="font-weight: bold;"
-                        >{{ post.title }}</a
+                       style="font-weight: bold; display:block; height: 20px"
+                        >{{ post.title | slice:":36" }}</a
                     >
 
                     <br />

@@ -47,7 +47,7 @@
             {% if post.github_address %}
             
             <div class="col-12">
-                <a href="{{ post.github_address }}" class="disabled">{{ post.github_address }}</a>
+                Github: <a href="{{ post.github_address }}" class="disabled">{{ post.github_address }}</a>
             </div>
             
             {% endif %}
@@ -57,7 +57,9 @@
         </div>
 
         <hr />
+        <div class="disabled">
         {{ post.md_to_gfm | safe}}
+        </div>
         
         <form action="" method="POST" class="mb-5">
             {% csrf_token %}
@@ -87,7 +89,7 @@
             </form>
         </div>
 
-        <br /><br /><br />
+        <br /><br /><br /><br />
 
         <div class="row">
             
@@ -95,16 +97,16 @@
             <div class="col-12">
                 {{ comment.author }} | {{ comment.date | date:'Y.m.d'}} 
                 {% if user == comment.author %}
-            
                 <form
                     action="{% url 'community:comment_delete' post.pk comment.pk %}"
                     method="POST"
                     class="float-end"
                 >
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-danger" value="DELETE" />
+                    <input type="submit" class="btn btn-outline-danger" value="삭제" />
                 </form>
                 {% endif %}
+                <br />
                 <br />
                 {{ comment }}
             </div>

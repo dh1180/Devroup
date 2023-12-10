@@ -3,6 +3,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-5">
+            <h3 class="text-center mb-5" style="font-weight: bold;">
+            {{ user.username }}님 환영합니다!
+                </h3>
             <form method="POST" action="{% url 'user:change_username' %}">
                 {% csrf_token %}
                 <div class="form-group" style="font-weight: 1000">
@@ -14,7 +17,7 @@
                     <input type="submit" value="수정" class="btn btn-outline-success form-control" />
                 </div>
             </form>
-            
+            <br />
             <form method="POST" action="{% url 'user:user_delete' %}">
                 {% csrf_token %}
                     <input type="submit" value="회원 탈퇴" class="btn btn-outline-danger form-control" />
