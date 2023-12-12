@@ -5,6 +5,7 @@ from django.contrib import messages
 import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from community.models import Post, Comment
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -44,3 +45,7 @@ def user_delete(request):
         request.user.delete()
         return redirect('community:post_list')
     return render(request, 'user/user_profile')
+
+def other_user_posts(request, author):
+    posts = Post.objects.filter(author=author).order_by('-date')
+    return render(request, 'user/other_user_posts.html', {'posts': posts, 'author': User.objects.get(pk=author)})
