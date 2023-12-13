@@ -8,13 +8,17 @@ from django.http import HttpResponse
 from django.template import loader
 from django.core.paginator import Paginator
 
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 # Create your views here.
 def post_list(request):
     query = request.GET.get('q', '')
     ordering = request.GET.get('ordering', '-date')
     page_number = request.GET.get('page')
 
-    if request.is_ajax():
+    if is_ajax(request=request):
         posts = Post.objects.filter(title__icontains=query).order_by(ordering)
         template = loader.get_template('community/post_list_ajax.html')
         
