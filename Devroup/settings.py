@@ -153,8 +153,11 @@ WSGI_APPLICATION = 'Devroup.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dh1180$default',
+        'USER': 'dh1180',
+        'PASSWORD': 'rlaehdgus1180',
+        'HOST': 'dh1180.mysql.pythonanywhere-services.com'
     }
 }
 
