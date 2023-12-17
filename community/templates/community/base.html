@@ -56,7 +56,7 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm bg-light">
+        <nav class="navbar navbar-expand-lg bg-light">
             <div class="container">
                 <a
                     class="navbar-brand"
@@ -67,19 +67,19 @@
                 </a>
                 
                 <div
-                    class="collapse navbar-collapse justify-content-end "
+                    class="justify-content-end"
                     id="navbarSupportedContent"
                 >
                     <ul class="navbar-nav mb-2 mb-lg-0" style="font-weight: bold;">
                         {% if user.is_authenticated %}
                         
                         <li>
-                            <a class="nav-link active" href="https://forms.gle/mQgPoKs9G4k7mtDo8"
+                            <a class="collapse navbar-collapse nav-link active" href="https://forms.gle/mQgPoKs9G4k7mtDo8"
                                 >배너에 프로젝트 등록하기</a
                             >
                         </li>
                         <li>
-                            <a class="nav-link active" href="{% url 'community:post_create' %}"
+                            <a class="collapse navbar-collapse nav-link active" href="{% url 'community:post_create' %}"
                                 >글쓰기</a
                             >
                         </li>
