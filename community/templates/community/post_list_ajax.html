@@ -100,14 +100,14 @@
     </div>
 
     <div class="row justify-content-between mb-5">
-        <div class="col-3">
+        <div class="col-md-3 col-sm-12">
             <h5 style="font-weight: bold;">🔲&nbsp;
             <a id="latest" style="color: gray;">최신순</a>&nbsp;|
             <a id="likes" style="color: gray;">좋아요순</a>&nbsp;|
             <a id="views" style="color: gray;">조회수순</a>
         </h5>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-sm-12">
             <form method="GET" action="{% url 'community:post_list' %}" class="d-flex">
                 <input
                     class="form-control me-2"
@@ -124,7 +124,7 @@
 
     <div class="row">
         {% for post in page_obj %}
-        <div class="col-3 mb-5">
+        <div class="col-md-3 col-sm-12 mb-5">
             <div class="card h-100">
                 <div class="media-container">
                     <img

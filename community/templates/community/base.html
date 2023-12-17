@@ -55,21 +55,20 @@
             
         </style>
     </head>
-    <body id="ajax">
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
+    <body>
+        <nav class="navbar navbar-expand-sm bg-light">
+            <div class="container">
                 <a
                     class="navbar-brand"
                     href="/"
-                    style="margin-left: 10.5rem;"
+                    
                     id="brand">
                 <img src="/media/logo/Devroup_Word.png" style="width: 150px"/>
                 </a>
                 
                 <div
-                    class="collapse navbar-collapse justify-content-end"
+                    class="collapse navbar-collapse justify-content-end "
                     id="navbarSupportedContent"
-                    style="margin-right: 10rem;"
                 >
                     <ul class="navbar-nav mb-2 mb-lg-0" style="font-weight: bold;">
                         {% if user.is_authenticated %}
@@ -137,8 +136,9 @@
                         </li>
                         {% endif %}
                     </ul>
-                </div>
-            </div>
+                    </div>
+                    </div>
+
         </nav>
 
         {% block content %} {% endblock %}

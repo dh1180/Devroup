@@ -30,27 +30,26 @@
 
         <div class="row">
                 
-            <div class="col-3">
+            <div class="col-md-3 col-sm-12">
                 <h4 class="disabled mb-3">
             <a href="{% url 'user:other_user_posts' author=post.author.pk %}" style="cursor: pointer; color: black; text-decoration: none;">{{ post.author }}</a> | {{ post.date | date:'Y.m.d' }}
                     </h4>
             </div>
             {% if user == post.author %}
-            <div class="col-3 d-flex">
+            <div class="col-md-3 col-sm-12 d-flex">
                 <form action="{% url 'community:post_edit' pk=post.pk %}">
                     <input type="submit" class="btn btn-outline-success" value="수정" />
                     <input type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete" value="삭제" />
                 </form>
                     
             </div>
+            {% endif %}
             
             {% if post.github_address %}
             
             <div class="col-12">
                 Github: <a href="{{ post.github_address }}" class="disabled">{{ post.github_address }}</a>
             </div>
-            
-            {% endif %}
             
             {% endif %}
                 
