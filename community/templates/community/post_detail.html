@@ -19,7 +19,7 @@
 
 <br /><br /><br /><br />
 <div class="container">
-    <div class="ms-5 me-5">
+    <div class="ms-md-5 me-md-5">
         <div class="row">
             <div class="col-12 mb-5">
                 <h1 class="disabled">
@@ -60,6 +60,7 @@
         {{ post.md_to_gfm | safe}}
         </div>
         
+        <br /><br /><br />
         <form action="" method="POST" class="mb-5">
             {% csrf_token %}
             <div class="text-center">

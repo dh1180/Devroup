@@ -4,6 +4,16 @@
 <html lang="en">
     <head>
         
+                <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-6W8HSD8C1M"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-6W8HSD8C1M');
+        </script>
+        
         <meta name="keywords" content="devroup,Devroup,데브룹,개발자 포트폴리오,개발 포트폴리오,코딩 포트폴리오,IT 취업 포트폴리오 예시,
                                        백엔드 포트폴리오 예시,프론트엔드 포트폴리오 예시,신입 백엔드 포트폴리오,신입 프론트엔드 포트폴리오,
                                        IT 경력 포트폴리오 샘플,토이프로젝트 아이디어,토이 프로젝트 사이트,컴공 토이프로젝트,코딩 토이프로젝트,토이프로젝트 커뮤니티,
@@ -56,30 +66,33 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-light">
+        <nav class="navbar navbar-expand-md bg-light">
             <div class="container">
                 <a
                     class="navbar-brand"
                     href="/"
-                    
                     id="brand">
                 <img src="/media/logo/Devroup_Word.png" style="width: 150px"/>
                 </a>
                 
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
                 <div
-                    class="justify-content-end"
+                    class="collapse navbar-collapse justify-content-end"
                     id="navbarSupportedContent"
                 >
                     <ul class="navbar-nav mb-2 mb-lg-0" style="font-weight: bold;">
                         {% if user.is_authenticated %}
                         
                         <li>
-                            <a class="collapse navbar-collapse nav-link active" href="https://forms.gle/mQgPoKs9G4k7mtDo8"
+                            <a class="nav-link active" href="https://forms.gle/mQgPoKs9G4k7mtDo8"
                                 >배너에 프로젝트 등록하기</a
                             >
                         </li>
                         <li>
-                            <a class="collapse navbar-collapse nav-link active" href="{% url 'community:post_create' %}"
+                            <a class="nav-link active" href="{% url 'community:post_create' %}"
                                 >글쓰기</a
                             >
                         </li>
