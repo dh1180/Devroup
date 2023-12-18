@@ -1,26 +1,28 @@
 {% extends 'community/base.html' %} {% block content %}
+<br /><br /><br />
 <div class="container">
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
-                <label for="title" class="form-label">제목</label>
-                <input class="form-control" type="text" name="title" id="title" value="{{ post.title }}" />
+                <label for="title" class="form-label" style="font-weight: 1000;" value="{{ post.title }}">제목<span style="color: #FF0000">*</span></label>
+                <input class="form-control" type="text" name="title" id="title" placeholder="제목을 입력해주세요" />
                 
                 <br />
                 
-                <label for="github_address" class="form-label">github 주소</label>
-                <input class="form-control" type="url" name="github_address" id="github_address" placeholder="해당 게시글의 github 주소를 입력해주세요" value="{{ post.github_address }}" />
+                <label for="github_address" class="form-label" style="font-weight: 1000;" value="{{ post.github_address }}">github 주소</label>
+                <input class="form-control" type="url" name="github_address" id="github_address" placeholder="해당 프로젝트의 github 주소를 입력해주세요" />
+                
+                <br />
 
-                <br />
-                
-                <label for="content" class="form-label">내용</label>
+                <label for="content" class="form-label" style="font-weight: 1000;">내용<span style="color: #FF0000">*</span></label>
                 <textarea
                     class="form-control"
                     type="content"
                     name="content"
                     id="content"
-                    rows="10"
+                    rows="20"
+                    placeholder="마크다운(GFM) 형식으로 입력해주세요"
                 >{{ post.content }}</textarea>
             </div>
         </div>
@@ -28,12 +30,12 @@
         <br />
         
         <div class="row justify-content-end">
-            <div class="col-2 text-end">
+            <div class="col-md-2 col-sm-4 text-end">
                 <label for="file" class="btn btn-secondary">썸네일 업로드</label>
                 <input type="file" name="image" class="custom-file-input" id="file" style="display: none" />
             </div>
 
-            <div class="col-1 text-end">
+            <div class="col-md-1 col-sm-3 text-end">
                 <input type="submit" value="글쓰기" class="btn btn-outline-primary" />
             </div>
         </div>
