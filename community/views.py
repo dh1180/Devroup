@@ -53,9 +53,9 @@ def post_create(request):
             post.save()
             return redirect('community:post_detail', pk=post.pk)
         else:
-            default_image_path = os.path.join(settings.MEDIA_ROOT, 'logo', 'Devroup_default.png')
+            default_image_path = os.path.join(settings.MEDIA_ROOT, 'logo', 'Devroup_default_transparent.png')
             with open(default_image_path, 'rb') as default_image_file:
-                post.image.save('Devroup_default.png', default_image_file, save=True)
+                post.image.save('Devroup_default_transparent.png', default_image_file, save=True)
                 post.save()
                 return redirect('community:post_detail', pk=post.pk)
     return render(request, 'community/post_create.html')
