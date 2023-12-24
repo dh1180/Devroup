@@ -5,13 +5,13 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
-                <label for="title" class="form-label" style="font-weight: 1000;" value="{{ post.title }}">제목<span style="color: #FF0000">*</span></label>
-                <input class="form-control" type="text" name="title" id="title" placeholder="제목을 입력해주세요" />
+                <label for="title" class="form-label" style="font-weight: 1000;">제목<span style="color: #FF0000">*</span></label>
+                <input class="form-control" type="text" name="title" id="title" placeholder="제목을 입력해주세요" value="{{ post.title }}" />
                 
                 <br />
                 
-                <label for="github_address" class="form-label" style="font-weight: 1000;" value="{{ post.github_address }}">github 주소</label>
-                <input class="form-control" type="url" name="github_address" id="github_address" placeholder="해당 프로젝트의 github 주소를 입력해주세요" />
+                <label for="github_address" class="form-label" style="font-weight: 1000;">github 주소</label>
+                <input class="form-control" type="url" name="github_address" id="github_address" placeholder="해당 프로젝트의 github 주소를 입력해주세요" value="{{ post.github_address }}" />
                 
                 <br />
 
