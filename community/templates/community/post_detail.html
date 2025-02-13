@@ -15,103 +15,170 @@
     font-weight: bold;
     margin-bottom: 20px;
     }
+
+    .like-button {
+        background: none;
+        border: 2px solid #ff6b6b;
+        color: #ff6b6b;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        border-radius: 2rem;
+        transition: all 0.2s;
+    }
+
+    .like-button:hover {
+        background-color: #ff6b6b;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* 댓글 섹션 스타일링 */
+    .comment-section {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .comment-form textarea {
+        border-radius: 1rem;
+        padding: 1rem;
+        resize: none;
+        min-height: 100px;
+    }
+
+    .comment-item {
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+        transition: background-color 0.2s;
+    }
+
+    .comment-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .comment-meta {
+        color: #868e96;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-content {
+        color: #495057;
+    }
+
+    /* 수정/삭제 버튼 스타일링 */
+    .action-buttons .btn {
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        margin-right: 0.5rem;
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+        .post-title {
+            font-size: 1.8rem;
+        }
+
+        .post-content {
+            font-size: 1rem;
+        }
+
+        .like-button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .comment-section {
+            padding: 1rem;
+        }
+    }
 </style>
 
-<br /><br /><br /><br />
-<div class="container">
+<div class="container py-5">
     <div class="ms-md-5 me-md-5">
         <div class="row">
             <div class="col-12 mb-5">
-                <h1 class="disabled">
+                <h1 class="disabled" style="font-weight: bold;">
                     {{ post.title }}
                 </h1>
             </div>
         </div>
 
-        <div class="row">
-                
-            <div class="col-md-3 col-sm-12">
-                <h4 class="disabled mb-3">
-            <a href="{% url 'user:other_user_posts' author=post.author.pk %}" style="cursor: pointer; color: black; text-decoration: none;">{{ post.author }}</a> | {{ post.date | date:'Y.m.d' }}
-                    </h4>
+        <!-- 메타 정보 섹션 -->
+            <div class="post-meta d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <a href="{% url 'user:other_user_posts' author=post.author.pk %}">{{ post.author }}</a>
+                    <span class="mx-2">|</span>
+                    <span>{{ post.date | date:'Y.m.d' }}</span>
+                </div>
+                {% if user == post.author %}
+                <div class="action-buttons">
+                    <form action="{% url 'community:post_edit' pk=post.pk %}" class="d-inline">
+                        <input type="submit" class="btn btn-outline-success" value="수정" />
+                        <input type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete" value="삭제" />
+                    </form>
+                </div>
+                {% endif %}
             </div>
-            {% if user == post.author %}
-            <div class="col-md-3 col-sm-12 d-flex">
-                <form action="{% url 'community:post_edit' pk=post.pk %}">
-                    <input type="submit" class="btn btn-outline-success" value="수정" />
-                    <input type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete" value="삭제" />
-                </form>
-                    
-            </div>
-            {% endif %}
-            
+
             {% if post.github_address %}
-            
-            <div class="col-12">
-                Github: <a href="{{ post.github_address }}" class="disabled">{{ post.github_address }}</a>
+            <div class="mb-4">
+                <a href="{{ post.github_address }}" class="text-decoration-none text-dark">
+                    <i class="fab fa-github"></i> {{ post.github_address }}
+                </a>
             </div>
-            
             {% endif %}
                 
         </div>
+        <hr style="border: solid; height: 3px; background-color: black;" />
 
-        <hr />
         <div class="disabled">
         {{ post.md_to_gfm | safe}}
         </div>
         
-        <br /><br /><br />
-        <form action="" method="POST" class="mb-5">
-            {% csrf_token %}
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-danger" style="font-size: 300%;">
+        <!-- 좋아요 버튼 -->
+        <div class="text-center my-5">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="like-button">
                     ♥ {{ post.like }}
                 </button>
-            </div>
-        </form>
-
-        <div class="row">
-            <form
-                action="{% url 'community:comment_create' pk=post.pk %}"
-                method="POST"
-                class="mb-0"
-            >
-                {% csrf_token %}
-                <label for="comment" class="form-label">댓글 {{ comments|length }}</label>
-                <textarea
-                    class="form-control h-75"
-                    id="comment"
-                    placeholder="댓글을 입력해주세요."
-                    name="content"
-                ></textarea>
-                <br />
-                <input type="submit" class="float-end btn btn-primary" value="댓글 등록" />
             </form>
         </div>
 
-        <br /><br /><br /><br />
-
-        <div class="row">
+        <!-- 댓글 섹션 -->
+        <div class="comment-section mt-5">
+            <h4 class="mb-4">댓글 {{ comments|length }}</h4>
             
-                {% for comment in comments %} 
-            <div class="col-12">
-                {{ comment.author }} | {{ comment.date | date:'Y.m.d'}} 
-                {% if user == comment.author %}
-                <form
-                    action="{% url 'community:comment_delete' post.pk comment.pk %}"
-                    method="POST"
-                    class="float-end"
-                >
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-danger" value="삭제" />
-                </form>
-                {% endif %}
-                <br />
-                <br />
-                {{ comment }}
+            <!-- 댓글 작성 폼 -->
+            <form action="{% url 'community:comment_create' pk=post.pk %}" method="POST" class="comment-form mb-5">
+                {% csrf_token %}
+                <textarea class="form-control mb-3" placeholder="댓글을 입력해주세요." name="content"></textarea>
+                <button type="submit" class="btn btn-primary float-end">댓글 등록</button>
+            </form>
+
+            <!-- 댓글 목록 -->
+            <div class="comments-list mt-5">
+                {% for comment in comments %}
+                <div class="comment-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="comment-meta">
+                            {{ comment.author }} | {{ comment.date | date:'Y.m.d'}}
+                        </div>
+                        {% if user == comment.author %}
+                        <form action="{% url 'community:comment_delete' post.pk comment.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <div class="comment-content mt-2">
+                        {{ comment }}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <hr />
-            {% endfor %}
         </div>
         <br /><br />
     </div>

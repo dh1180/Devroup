@@ -26,7 +26,7 @@
                                        백엔드 포트폴리오 예시,프론트엔드 포트폴리오 예시,신입 백엔드 포트폴리오,신입 프론트엔드 포트폴리오,
                                        IT 경력 포트폴리오 샘플,토이프로젝트 아이디어,토이 프로젝트 사이트,컴공 토이프로젝트,코딩 토이프로젝트,토이프로젝트 커뮤니티,
                                        토이프로젝트 모집,개발자 사이드프로젝트,토이 프로젝트 주제,토이 프로젝트 예시">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         
         <link rel="icon" type="image/x-icon" href="/media/logo/Devroup_NoWord_full_transparent.ico">
         
@@ -60,6 +60,50 @@
         <style type="text/css">
             body {
                 font-family: 'Noto Sans KR', sans-serif;
+                background-color: #f8f9fa;  /* 배경색 추가 */
+            }
+
+            .navbar {
+                box-shadow: 0 2px 4px rgba(0,0,0,.08);  /* 네비바에 그림자 추가 */
+                background-color: white !important;  /* 네비바 배경색 */
+            }
+
+            .nav-link {
+                font-weight: 500;
+                color: #495057;
+            }
+
+            .nav-link:hover {
+                color: #228be6;
+            }
+
+            .dropdown-item:hover {
+                background-color: #e7f5ff;
+                color: #228be6;
+            }
+
+            /* 모달 스타일링 */
+            .modal-content {
+                border-radius: 1rem;
+                border: none;
+            }
+
+            .modal-header {
+                border-bottom: none;
+                padding: 2rem 2rem 1rem;
+            }
+
+            .modal-body {
+                padding: 1rem 2rem 2rem;
+            }
+
+            /* 소셜 로그인 버튼 호버 효과 */
+            .social-login img {
+                transition: transform 0.2s;
+            }
+
+            .social-login img:hover {
+                transform: scale(1.05);
             }
 
             table,
@@ -71,6 +115,24 @@
                 padding: 10px;
             }
             
+            /* 모바일 최적화 스타일 */
+            @media (max-width: 768px) {
+                .navbar-brand img {
+                    width: 120px;  /* 모바일에서 로고 크기 축소 */
+                }
+                
+                .navbar {
+                    padding: 0.5rem 1rem;  /* 모바일에서 네비바 패딩 축소 */
+                }
+                
+                .modal-dialog {
+                    margin: 0.5rem;  /* 모바일에서 모달 마진 축소 */
+                }
+                
+                .social-login img {
+                    width: 80px;  /* 모바일에서 소셜 로그인 아이콘 크기 축소 */
+                }
+            }
         </style>
     </head>
     <body>

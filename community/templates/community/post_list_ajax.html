@@ -14,14 +14,144 @@
         color: black;
         text-decoration: none;
     }
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
     .card:hover {
-        transform: scale(1.05);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    }
+    .card-img-top {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .card-title {
+        color: #343a40;
+        font-weight: 600;
+    }
+    .card-title:hover {
+        color: #228be6;
+    }
+    .sort-buttons a {
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        transition: background-color 0.2s;
+        text-decoration: none !important;  /* 밑줄 제거 */
+        cursor: pointer;
+    }
+    .sort-buttons a:hover {
+        background-color: #e7f5ff;
+        text-decoration: none;
+    }
+    .sort-buttons a.active {
+        color: #228be6;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .search-form input {
+        border-radius: 2rem;
+        padding-left: 1.5rem;
+    }
+    .search-form .btn {
+        border-radius: 2rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .pagination .page-link {
+        border: none;
+        color: #495057;
+        margin: 0 0.2rem;
+        border-radius: 0.5rem;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #228be6;
+        border-color: #228be6;
+    }
+    
+    /* 모바일 최적화 스타일 */
+    @media (max-width: 768px) {
+        .card {
+            margin-bottom: 1rem;  /* 카드 간격 조정 */
+        }
+        
+        .card-body {
+            padding: 1rem;  /* 카드 내부 패딩 축소 */
+        }
+        
+        .sort-buttons {
+            margin-bottom: 1rem;  /* 정렬 버튼과 검색창 사이 간격 */
+            text-align: center;  /* 정렬 버튼 중앙 정렬 */
+        }
+        
+        .sort-buttons a {
+            padding: 0.3rem 0.7rem;  /* 버튼 크기 축소 */
+            font-size: 0.9rem;  /* 폰트 크기 축소 */
+        }
+        
+        .search-form {
+            width: 100%;  /* 검색창 전체 너비 사용 */
+            margin-bottom: 1rem;
+        }
+        
+        .carousel {
+            margin-bottom: 2rem !important;  /* 캐러셀 하단 여백 조정 */
+        }
+        
+        .pagination .page-link {
+            padding: 0.4rem 0.8rem;  /* 페이지네이션 버튼 크기 축소 */
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* 태블릿 최적화 */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .card-title {
+            font-size: 0.9rem;  /* 태블릿에서 제목 크기 조정 */
+        }
+        
+        .col-md-3 {
+            flex: 0 0 50%;  /* 태블릿에서 2열로 표시 */
+            max-width: 50%;
+        }
+    }
+
+    /* 로딩 스피너 스타일 */
+    .loading-spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;  /* 높이 조정 */
+        margin: 2rem 0;     /* 상하 여백 추가 */
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        color: #228be6;
+    }
+
+    /* 컨텐츠 숨김 스타일 */
+    .content-container {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .content-container.loaded {
+        opacity: 1;
     }
 </style>
 
+<!-- 로딩 스피너 추가 -->
 <div class="container">
+    <!-- 배너 -->
     <div class="row">
-        <div class="col-12 mb-5">
+        <div class="col-12 mb-md-5">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button
@@ -99,117 +229,117 @@
         </div>
     </div>
 
-    <div class="row justify-content-between mb-5">
-        <div class="col-md-3 col-sm-12">
-            <h5 style="font-weight: bold;">🔲&nbsp;
-            <a id="latest" style="color: gray;">최신순</a>&nbsp;|
-            <a id="likes" style="color: gray;">좋아요순</a>&nbsp;|
-            <a id="views" style="color: gray;">조회수순</a>
-        </h5>
+    <!-- 검색 및 정렬 -->
+    <div class="row justify-content-between align-items-center mb-3 mb-md-5">
+        <div class="col-md-4 sort-buttons">
+            <h5 class="mb-0">
+                <a id="latest" class="me-2">최신순</a>
+                <a id="likes" class="me-2">좋아요순</a>
+                <a id="views">조회수순</a>
+            </h5>
         </div>
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-4 search-form">
             <form method="GET" action="{% url 'community:post_list' %}" class="d-flex">
-                <input
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    name="q"
-                    id="q"
-                />
-                <input class="btn btn-outline-primary" type="submit" value="Search" id="submit" />
+                <input class="form-control me-2" type="search" placeholder="프로젝트 검색하기" name="q" id="q">
+                <button class="btn btn-outline-primary" type="submit" id="submit">검색</button>
             </form>
         </div>
     </div>
 
-    <div class="row">
-        {% for post in page_obj %}
-        <div class="col-md-3 col-sm-12 mb-5">
-            <div class="card h-100">
-                <div class="media-container">
-                    <img
-                        src="{{ post.image.url }}"
-                        class="card-img-top"
-                        style="object-fit: cover; height: 200px;"
-                    />
-                </div>
+    <!-- 로딩 스피너 -->
+    <div class="loading-spinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
-                <div class="card-body">
-                    <a
-                        class="card-title stretched-link"
-                        href="{% url 'community:post_detail' pk=post.pk %}"
-                       style="font-weight: bold; display:block; height: 20px"
-                        >{{ post.title | slice:":36" }}</a
-                    >
+    <!-- 컨텐츠 컨테이너 -->
+    <div class="content-container">
+        <div class="row">
+            {% for post in page_obj %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card h-100">
+                    <div class="media-container">
+                        <img
+                            src="{{ post.image.url }}"
+                            class="card-img-top"
+                            style="object-fit: cover; height: 200px;"
+                        />
+                    </div>
 
-                    <br />
-                    <hr />
-                    <div class="row">
-                        <div class="col-6" style="font-size: small;">
-                            {{ post.author }}
-                        </div>
-                        <div class="col-6 text-end">
-                            ♥&nbsp;{{ post.like }} 👁&nbsp;{{ post.hit }} 🗨️&nbsp;{{ post.get_comment_count }}
+                    <div class="card-body">
+                        <a
+                            class="card-title stretched-link"
+                            href="{% url 'community:post_detail' pk=post.pk %}"
+                           style="font-weight: bold; display:block; height: 20px"
+                            >{{ post.title | slice:":36" }}</a
+                        >
+
+                        <br />
+                        <hr />
+                        <div class="row">
+                            <div class="col-6" style="font-size: small;">
+                                {{ post.author }}
+                            </div>
+                            <div class="col-6 text-end">
+                                ♥&nbsp;{{ post.like }} 👁&nbsp;{{ post.hit }} 🗨️&nbsp;{{ post.get_comment_count }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        
     </div>
-    
-  <ul class="pagination justify-content-center">
-      
-    <li class="page-item"><a class="page-link">&laquo;</a></li>
-      
-    {% if page_obj.number == page_obj.paginator.num_pages and page_obj.number|add:-4 > 1 %}
-    <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-4 }}</a></li>
-    {% endif %}
-      
-    {% if page_obj.number == page_obj.paginator.num_pages or page_obj.number == page_obj.paginator.num_pages|add:-1 %}
-      {% if page_obj.number|add:-3 > 1 %}
-    <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-3 }}</a></li>
-      {% endif %}
-    {% endif %}
-      
-    {% if page_obj.number|add:-2 >= 1 %}
-      <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-2 }}</a></li> 
-    {% endif %}
-      
-    {% if page_obj.has_previous %}
-      <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-1 }}</a></li>
-    {% endif %}
-      
-    
-    <li class="page-item active"><a class="page-link">{{ page_obj.number }}</a></li>
-    
-     
-    {% if page_obj.has_next %}
-      <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:1 }}</a></li>
-    {% endif %}
-    
-    {% if page_obj.number|add:2 > page_obj.paginator.num_pages %}
-    {% else %}
-      <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:2 }}</a></li>
-    {% endif %}
-      
-    {% if page_obj.number == 1 or page_obj.number == 2 %}
-        {% if page_obj.number|add:3 <= page_obj.paginator.num_pages %}
-                                                                                                              
-    <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:3 }}</a></li>
+
+    <!-- 페이지네이션 -->
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link">&laquo;</a></li>
+          
+        {% if page_obj.number == page_obj.paginator.num_pages and page_obj.number|add:-4 > 1 %}
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-4 }}</a></li>
         {% endif %}
-    {% endif %}
-      
-    {% if page_obj.number == 1 and page_obj.number|add:4 <= page_obj.paginator.num_pages %}
-    <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:4 }}</a></li>
-    {% endif %}
-      
-    <li class="page-item"><a class="page-link">&raquo;</a></li>
-      
-  </ul>
-    
-</div>
+          
+        {% if page_obj.number == page_obj.paginator.num_pages or page_obj.number == page_obj.paginator.num_pages|add:-1 %}
+          {% if page_obj.number|add:-3 > 1 %}
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-3 }}</a></li>
+          {% endif %}
+        {% endif %}
+          
+        {% if page_obj.number|add:-2 >= 1 %}
+          <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-2 }}</a></li> 
+        {% endif %}
+          
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:-1 }}</a></li>
+        {% endif %}
+          
+        
+        <li class="page-item active"><a class="page-link">{{ page_obj.number }}</a></li>
+        
+         
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:1 }}</a></li>
+        {% endif %}
+        
+        {% if page_obj.number|add:2 > page_obj.paginator.num_pages %}
+        {% else %}
+          <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:2 }}</a></li>
+        {% endif %}
+          
+        {% if page_obj.number == 1 or page_obj.number == 2 %}
+            {% if page_obj.number|add:3 <= page_obj.paginator.num_pages %}
+                                                                                                              
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:3 }}</a></li>
+            {% endif %}
+        {% endif %}
+          
+        {% if page_obj.number == 1 and page_obj.number|add:4 <= page_obj.paginator.num_pages %}
+        <li class="page-item"><a class="page-link" href="#">{{ page_obj.number|add:4 }}</a></li>
+        {% endif %}
+          
+        <li class="page-item"><a class="page-link">&raquo;</a></li>
+    </ul>
 </div>
 
 <script type="text/javascript">
@@ -318,6 +448,26 @@
             success: function (data) {
                 $('#post_list').html(data);
             },
+        });
+    });
+
+    $(document).ready(function() {
+        // 페이지 로드 완료 시
+        $(window).on('load', function() {
+            $('.loading-spinner').fadeOut(300, function() {
+                $(this).remove();
+                $('.content-container').addClass('loaded');
+            });
+        });
+    });
+
+    // AJAX 요청 시 로딩 처리
+    $(document).ajaxStart(function() {
+        $('.content-container').removeClass('loaded');
+        $('.loading-spinner').show();
+    }).ajaxComplete(function() {
+        $('.loading-spinner').fadeOut(300, function() {
+            $('.content-container').addClass('loaded');
         });
     });
 
