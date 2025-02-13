@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=devroup_db
+      - DB_USER=dh1180
+      - DB_PASSWORD=mjdh1180
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=devroup_db
+      - POSTGRES_USER=dh1180
+      - POSTGRES_PASSWORD=mjdh1180
+    ports:
+      - "5432:5432" 
+      
+volumes:
+  postgres_data: 
