@@ -1,0 +1,120 @@
+<style type="text/css">
+    /* 카드 스타일링 */
+    .card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    }
+
+    .card-img-top {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        object-fit: cover;
+        height: 200px;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        color: #343a40;
+        font-weight: 600;
+        text-decoration: none !important;
+    }
+
+    .card-title:hover {
+        color: #228be6;
+    }
+
+    /* 페이지 타이틀 스타일링 */
+    .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #343a40;
+        margin-bottom: 2rem;
+    }
+
+    /* 링크 스타일링 */
+    a {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+    /* 메타 정보 스타일링 */
+    .post-meta {
+        font-size: 0.9rem;
+        color: #868e96;
+    }
+
+    .post-stats {
+        font-size: 0.9rem;
+        color: #495057;
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+        .card {
+            margin-bottom: 1rem;
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+    
+    /* 태블릿 최적화 */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .col-md-4 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="page-title">{{ page_title }}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-3 col-sm-12 mb-4">
+            <div class="card h-100">
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'community:post_detail' pk=post.pk %}" class="card-title mb-3">
+                        {{ post.title }}
+                    </a>
+                    <div class="mt-auto">
+                        <hr class="my-3">
+                        <div class="row align-items-center">
+                            <div class="col-6 post-meta">
+                                {{ post.author }}
+                            </div>
+                            <div class="col-6 text-end post-stats">
+                                <span title="좋아요">♥ {{ post.like }}</span>
+                                <span class="ms-2" title="조회수">👁 {{ post.hit }}</span>
+                                <span class="ms-2" title="댓글">🗨️ {{ post.get_comment_count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

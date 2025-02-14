@@ -61,11 +61,14 @@
             body {
                 font-family: 'Noto Sans KR', sans-serif;
                 background-color: #f8f9fa;  /* 배경색 추가 */
+                overflow-x: hidden;  /* 가로 스크롤 방지 */
             }
 
             .navbar {
                 box-shadow: 0 2px 4px rgba(0,0,0,.08);  /* 네비바에 그림자 추가 */
                 background-color: white !important;  /* 네비바 배경색 */
+                width: 100%;
+                max-width: 100vw;  /* 뷰포트 너비를 넘지 않도록 제한 */
             }
 
             .nav-link {
@@ -132,6 +135,22 @@
                 .social-login img {
                     width: 80px;  /* 모바일에서 소셜 로그인 아이콘 크기 축소 */
                 }
+
+                .navbar-collapse {
+                    max-width: 100%;  /* 모바일에서 드롭다운 너비 제한 */
+                    padding: 1rem;    /* 모바일 메뉴 패딩 추가 */
+                }
+
+                .container {
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    width: 100%;
+                    max-width: 100%;
+                }
+            }
+
+            .navbar-collapse {
+                flex-grow: 0;  /* 네비게이션 항목이 너무 넓어지는 것을 방지 */
             }
         </style>
     </head>
