@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -124,6 +128,9 @@ MIDDLEWARE = [
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 ACCOUNT_LOGOUT_ON_GET = True
 LOGIN_REDIRECT_URL = 'community:post_list'
 ROOT_URLCONF = 'Devroup.urls'
@@ -160,6 +167,9 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+
+if os.environ.get('ENVIRONMENT') == 'production':
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

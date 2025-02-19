@@ -1,13 +1,30 @@
-FROM python:3.11
+ARG PYTHON_VERSION=3.13-slim
 
-WORKDIR /app
+FROM python:${PYTHON_VERSION}
 
-# 필요한 Python 패키지 설치
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# 프로젝트 파일 복사
-COPY . .
+# install psycopg2 dependencies.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# 포트 설정
-EXPOSE 8000 
+RUN mkdir -p /code
+
+WORKDIR /code
+
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
+
+ENV SECRET_KEY "G8EYn3yXbsHvDHiQ1tAZt7G4xRGgmYcFDpH2Bg4VqNeCufR0Ox"
+RUN python manage.py collectstatic --noinput
+
+EXPOSE 8000
+
+CMD ["gunicorn","--bind",":8000","--workers","2","Devroup.wsgi"]
