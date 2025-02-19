@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        
                 <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-6W8HSD8C1M"></script>
         <script>
@@ -311,3 +310,8 @@
         </div>
     </div>
 </div>
+
+{% if messages %}
+{% for message in messages %}
+{% endfor %}
+{% endif %}
